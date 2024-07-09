@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApp1", "WindowsFormsApp1\WindowsFormsApp1.csproj", "{36ACF78E-46E0-4937-BBD4-CCC6355C0960}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Practice3-1", "Practice3-1\Practice3-1.csproj", "{36ACF78E-46E0-4937-BBD4-CCC6355C0960}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

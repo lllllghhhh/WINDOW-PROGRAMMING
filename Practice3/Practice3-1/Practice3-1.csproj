@@ -7,7 +7,7 @@
         <ProjectGuid>{36ACF78E-46E0-4937-BBD4-CCC6355C0960}</ProjectGuid>
         <OutputType>WinExe</OutputType>
         <RootNamespace>WindowsFormsApp1</RootNamespace>
-        <AssemblyName>WindowsFormsApp1</AssemblyName>
+        <AssemblyName>Practice3-1</AssemblyName>
         <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
