@@ -35,17 +35,17 @@
             this.input_birth = new System.Windows.Forms.Label();
             this.input_today = new System.Windows.Forms.Label();
             this.input_doc = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.Name_text = new System.Windows.Forms.TextBox();
+            this.gender_text = new System.Windows.Forms.TextBox();
+            this.birth_text = new System.Windows.Forms.TextBox();
+            this.today_text = new System.Windows.Forms.TextBox();
+            this.doc_text = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.Name_check = new System.Windows.Forms.Label();
+            this.gender_check = new System.Windows.Forms.Label();
+            this.birth_check = new System.Windows.Forms.Label();
+            this.today_check = new System.Windows.Forms.Label();
+            this.doc_check = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // input_data
@@ -103,40 +103,40 @@
             this.input_doc.Text = "狗派or貓派";
             this.input_doc.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBox1
+            // Name_text
             // 
-            this.textBox1.Location = new System.Drawing.Point(250, 80);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(300, 29);
-            this.textBox1.TabIndex = 6;
+            this.Name_text.Location = new System.Drawing.Point(250, 80);
+            this.Name_text.Name = "Name_text";
+            this.Name_text.Size = new System.Drawing.Size(300, 29);
+            this.Name_text.TabIndex = 6;
             // 
-            // textBox2
+            // gender_text
             // 
-            this.textBox2.Location = new System.Drawing.Point(250, 140);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(300, 29);
-            this.textBox2.TabIndex = 7;
+            this.gender_text.Location = new System.Drawing.Point(250, 140);
+            this.gender_text.Name = "gender_text";
+            this.gender_text.Size = new System.Drawing.Size(300, 29);
+            this.gender_text.TabIndex = 7;
             // 
-            // textBox3
+            // birth_text
             // 
-            this.textBox3.Location = new System.Drawing.Point(250, 200);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(300, 29);
-            this.textBox3.TabIndex = 8;
+            this.birth_text.Location = new System.Drawing.Point(250, 200);
+            this.birth_text.Name = "birth_text";
+            this.birth_text.Size = new System.Drawing.Size(300, 29);
+            this.birth_text.TabIndex = 8;
             // 
-            // textBox4
+            // today_text
             // 
-            this.textBox4.Location = new System.Drawing.Point(250, 260);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(300, 29);
-            this.textBox4.TabIndex = 9;
+            this.today_text.Location = new System.Drawing.Point(250, 260);
+            this.today_text.Name = "today_text";
+            this.today_text.Size = new System.Drawing.Size(300, 29);
+            this.today_text.TabIndex = 9;
             // 
-            // textBox5
+            // doc_text
             // 
-            this.textBox5.Location = new System.Drawing.Point(250, 320);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(300, 29);
-            this.textBox5.TabIndex = 10;
+            this.doc_text.Location = new System.Drawing.Point(250, 320);
+            this.doc_text.Name = "doc_text";
+            this.doc_text.Size = new System.Drawing.Size(300, 29);
+            this.doc_text.TabIndex = 10;
             // 
             // button1
             // 
@@ -146,46 +146,52 @@
             this.button1.TabIndex = 11;
             this.button1.Text = "AI大神請告訴我答案吧";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // label1
+            // Name_check
             // 
-            this.label1.Location = new System.Drawing.Point(577, 83);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(142, 26);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "label1";
+            this.Name_check.Location = new System.Drawing.Point(577, 83);
+            this.Name_check.Name = "Name_check";
+            this.Name_check.Size = new System.Drawing.Size(142, 26);
+            this.Name_check.TabIndex = 12;
+            this.Name_check.Text = "此欄未填寫";
+            this.Name_check.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label2
+            // gender_check
             // 
-            this.label2.Location = new System.Drawing.Point(577, 140);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(142, 26);
-            this.label2.TabIndex = 13;
-            this.label2.Text = "label2";
+            this.gender_check.Location = new System.Drawing.Point(577, 140);
+            this.gender_check.Name = "gender_check";
+            this.gender_check.Size = new System.Drawing.Size(142, 26);
+            this.gender_check.TabIndex = 13;
+            this.gender_check.Text = "此欄未填寫";
+            this.gender_check.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label3
+            // birth_check
             // 
-            this.label3.Location = new System.Drawing.Point(577, 200);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(142, 26);
-            this.label3.TabIndex = 14;
-            this.label3.Text = "label3";
+            this.birth_check.Location = new System.Drawing.Point(577, 200);
+            this.birth_check.Name = "birth_check";
+            this.birth_check.Size = new System.Drawing.Size(142, 26);
+            this.birth_check.TabIndex = 14;
+            this.birth_check.Text = "此欄未填寫";
+            this.birth_check.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label4
+            // today_check
             // 
-            this.label4.Location = new System.Drawing.Point(577, 260);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(142, 26);
-            this.label4.TabIndex = 15;
-            this.label4.Text = "label4";
+            this.today_check.Location = new System.Drawing.Point(577, 260);
+            this.today_check.Name = "today_check";
+            this.today_check.Size = new System.Drawing.Size(142, 26);
+            this.today_check.TabIndex = 15;
+            this.today_check.Text = "此欄未填寫";
+            this.today_check.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label5
+            // doc_check
             // 
-            this.label5.Location = new System.Drawing.Point(577, 320);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(142, 26);
-            this.label5.TabIndex = 16;
-            this.label5.Text = "label5";
+            this.doc_check.Location = new System.Drawing.Point(577, 320);
+            this.doc_check.Name = "doc_check";
+            this.doc_check.Size = new System.Drawing.Size(142, 26);
+            this.doc_check.TabIndex = 16;
+            this.doc_check.Text = "此欄未填寫";
+            this.doc_check.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Form1
             // 
@@ -193,17 +199,17 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(800, 500);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.doc_check);
+            this.Controls.Add(this.today_check);
+            this.Controls.Add(this.birth_check);
+            this.Controls.Add(this.gender_check);
+            this.Controls.Add(this.Name_check);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox5);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.doc_text);
+            this.Controls.Add(this.today_text);
+            this.Controls.Add(this.birth_text);
+            this.Controls.Add(this.gender_text);
+            this.Controls.Add(this.Name_text);
             this.Controls.Add(this.input_doc);
             this.Controls.Add(this.input_today);
             this.Controls.Add(this.input_birth);
@@ -216,11 +222,11 @@
             this.PerformLayout();
         }
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label Name_check;
+        private System.Windows.Forms.Label gender_check;
+        private System.Windows.Forms.Label birth_check;
+        private System.Windows.Forms.Label today_check;
+        private System.Windows.Forms.Label doc_check;
 
         private System.Windows.Forms.Button button1;
 
@@ -230,11 +236,11 @@
         private System.Windows.Forms.Label input_birth;
         private System.Windows.Forms.Label input_today;
         private System.Windows.Forms.Label input_doc;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox Name_text;
+        private System.Windows.Forms.TextBox gender_text;
+        private System.Windows.Forms.TextBox birth_text;
+        private System.Windows.Forms.TextBox today_text;
+        private System.Windows.Forms.TextBox doc_text;
 
         #endregion
     }
