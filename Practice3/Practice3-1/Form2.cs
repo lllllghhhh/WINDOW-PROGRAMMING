@@ -6,7 +6,7 @@ namespace WindowsFormsApp1
 {
     public partial class Form2 : Form
     {
-        public Form2()
+        public Form2(string name, string gender, string birth, string today, string doc)
         {
             InitializeComponent();
             name_1.Text = Form1.Name;
