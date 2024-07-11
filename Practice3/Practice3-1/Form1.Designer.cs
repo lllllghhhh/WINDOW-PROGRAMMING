@@ -236,7 +236,7 @@
         private System.Windows.Forms.Label input_birth;
         private System.Windows.Forms.Label input_today;
         private System.Windows.Forms.Label input_doc;
-        private System.Windows.Forms.TextBox Name_text;
+        public System.Windows.Forms.TextBox Name_text;
         private System.Windows.Forms.TextBox gender_text;
         private System.Windows.Forms.TextBox birth_text;
         private System.Windows.Forms.TextBox today_text;
