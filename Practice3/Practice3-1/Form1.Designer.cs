@@ -35,7 +35,7 @@
             this.input_birth = new System.Windows.Forms.Label();
             this.input_today = new System.Windows.Forms.Label();
             this.input_doc = new System.Windows.Forms.Label();
-            this.Name_text = new System.Windows.Forms.TextBox();
+            this.name_text = new System.Windows.Forms.TextBox();
             this.gender_text = new System.Windows.Forms.TextBox();
             this.birth_text = new System.Windows.Forms.TextBox();
             this.today_text = new System.Windows.Forms.TextBox();
@@ -103,12 +103,12 @@
             this.input_doc.Text = "狗派or貓派";
             this.input_doc.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // Name_text
+            // name_text
             // 
-            this.Name_text.Location = new System.Drawing.Point(250, 80);
-            this.Name_text.Name = "Name_text";
-            this.Name_text.Size = new System.Drawing.Size(300, 29);
-            this.Name_text.TabIndex = 6;
+            this.name_text.Location = new System.Drawing.Point(250, 80);
+            this.name_text.Name = "name_text";
+            this.name_text.Size = new System.Drawing.Size(300, 29);
+            this.name_text.TabIndex = 6;
             // 
             // gender_text
             // 
@@ -154,7 +154,7 @@
             this.Name_check.Name = "Name_check";
             this.Name_check.Size = new System.Drawing.Size(142, 26);
             this.Name_check.TabIndex = 12;
-            this.Name_check.Text = "此欄未填寫";
+            this.Name_check.Text = "(name error msg)";
             this.Name_check.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // gender_check
@@ -163,7 +163,7 @@
             this.gender_check.Name = "gender_check";
             this.gender_check.Size = new System.Drawing.Size(142, 26);
             this.gender_check.TabIndex = 13;
-            this.gender_check.Text = "此欄未填寫";
+            this.gender_check.Text = "(gender error msg)\r\n\r\n";
             this.gender_check.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // birth_check
@@ -172,7 +172,7 @@
             this.birth_check.Name = "birth_check";
             this.birth_check.Size = new System.Drawing.Size(142, 26);
             this.birth_check.TabIndex = 14;
-            this.birth_check.Text = "此欄未填寫";
+            this.birth_check.Text = "(birth error msg)\r\n";
             this.birth_check.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // today_check
@@ -181,7 +181,7 @@
             this.today_check.Name = "today_check";
             this.today_check.Size = new System.Drawing.Size(142, 26);
             this.today_check.TabIndex = 15;
-            this.today_check.Text = "此欄未填寫";
+            this.today_check.Text = "todat error msg";
             this.today_check.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // doc_check
@@ -190,7 +190,7 @@
             this.doc_check.Name = "doc_check";
             this.doc_check.Size = new System.Drawing.Size(142, 26);
             this.doc_check.TabIndex = 16;
-            this.doc_check.Text = "此欄未填寫";
+            this.doc_check.Text = "(doc error msg)\r\n";
             this.doc_check.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Form1
@@ -209,7 +209,7 @@
             this.Controls.Add(this.today_text);
             this.Controls.Add(this.birth_text);
             this.Controls.Add(this.gender_text);
-            this.Controls.Add(this.Name_text);
+            this.Controls.Add(this.name_text);
             this.Controls.Add(this.input_doc);
             this.Controls.Add(this.input_today);
             this.Controls.Add(this.input_birth);
@@ -236,7 +236,7 @@
         private System.Windows.Forms.Label input_birth;
         private System.Windows.Forms.Label input_today;
         private System.Windows.Forms.Label input_doc;
-        public System.Windows.Forms.TextBox Name_text;
+        public System.Windows.Forms.TextBox name_text;
         private System.Windows.Forms.TextBox gender_text;
         private System.Windows.Forms.TextBox birth_text;
         private System.Windows.Forms.TextBox today_text;
