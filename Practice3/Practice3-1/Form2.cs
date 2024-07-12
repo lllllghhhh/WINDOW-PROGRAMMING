@@ -9,11 +9,11 @@ namespace WindowsFormsApp1
         public Form2(string name, string gender, string birth, string today, string doc)
         {
             InitializeComponent();
-            name_1.Text = Form1.Name;
-            gender_1.Text = ;
-            birth_1.Text = ;
-            today_1.Text = ;
-            doc_1.Text = ;
+            name_1.Text = name;
+            gender_1.Text = gender;
+            birth_1.Text = birth;
+            today_1.Text = today;
+            doc_1.Text = doc;
         }
         
         
