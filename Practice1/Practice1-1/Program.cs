@@ -153,7 +153,7 @@ namespace Practice1_1
                                 shopping();
                                 break;
                             default:
-                                Console.WriteLine("error");
+                                Console.WriteLine("輸入錯誤!請重新輸入!");
                                 shopping();
                                 break;
                         }
@@ -163,6 +163,16 @@ namespace Practice1_1
                         show_cart_list(buyer_1);
                         shopping();
                         break;
+                    case 5:
+                        shopping();
+                        break;
+                    case 6:
+                        break;
+                    default:
+                        Console.WriteLine("輸入錯誤!請重新輸入!");
+                        shopping();
+                        break;
+                    
                 }
             }
 
