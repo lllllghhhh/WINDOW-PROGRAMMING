@@ -16,6 +16,7 @@ namespace Practice1_1
             public string name;
             public int price;
             public int amount;
+            public int total_amount;
         }
         
         public static void Main(string[] args)
@@ -25,12 +26,18 @@ namespace Practice1_1
             safety_cord.name = "潛水相機防丟繩";
             safety_cord.price = 199;
             safety_cord.amount = 0;
+            safety_cord.total_amount = 0;
             weight_belt.name = "潛水配重帶";
             weight_belt.price = 460;
             weight_belt.amount = 0;
+            weight_belt.total_amount = 0;
             compass.name = "潛水作業指北針";
             compass.price = 1100;
             compass.amount = 0;
+            compass.total_amount = 0;
+            buyer_1.cord_block = safety_cord;
+            buyer_1.belt_block = weight_belt;
+            buyer_1.compass_block = compass;
             void shopping()
             {
                 Console.WriteLine("(1)商品列表(2)新增至購物車(3)自購物車刪除(4)查看購物車(5)計算總金額(6)退出網站");
@@ -52,18 +59,18 @@ namespace Practice1_1
                         var unit = int.Parse(Console.ReadLine()); 
                         switch (type) {
                             case 1:
-                                safety_cord.amount = unit;
-                                buyer_1.cord_block = safety_cord;
+                                buyer_1.cord_block.amount = unit;
+                                buyer_1.cord_block.total_amount = unit * safety_cord.price;
                                 shopping();
                                 break;
                             case 2:
                                 weight_belt.amount = unit;
-                                buyer_1.belt_block = weight_belt;
+                                weight_belt.total_amount = unit * weight_belt.price; 
                                 shopping();
                                 break;
                             case 3:
-                                buyer_1.compass_block = compass;
                                 compass.amount = unit;
+                                compass.total_amount = unit * compass.price;
                                 shopping();
                                 break;
                             default:
@@ -79,13 +86,33 @@ namespace Practice1_1
                         Console.WriteLine("商品 單價 數量 小計");
                         Console.Write("1.");
                         Console.Write(buyer_1.cord_block.name);
-                        
+                        Console.Write(" (TWD)");
+                        Console.Write(buyer_1.cord_block.price);
+                        Console.Write(" ");
+                        Console.Write(buyer_1.cord_block.amount);
+                        Console.Write(" ");
+                        Console.Write(buyer_1.cord_block.total_amount);
+                        Console.Write("2.");
+                        Console.Write(buyer_1.belt_block.name);
+                        Console.Write(" (TWD)");
+                        Console.Write(buyer_1.belt_block.price);
+                        Console.Write(" ");
+                        Console.Write(buyer_1.belt_block.amount);
+                        Console.Write(" ");
+                        Console.Write(buyer_1.belt_block.total_amount);
+                        Console.Write("3.");
+                        Console.Write(buyer_1.compass_block.name);
+                        Console.Write(" (TWD)");
+                        Console.Write(buyer_1.compass_block.price);
+                        Console.Write(" ");
+                        Console.Write(buyer_1.compass_block.amount);
+                        Console.Write(" ");
+                        Console.Write(buyer_1.compass_block.total_amount);
+                        break;
                     
                 }
             }
-            
             shopping();
-            
             
         }
     }
