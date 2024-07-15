@@ -235,6 +235,10 @@ namespace Practice1_1
                                             else 
                                                 Console.WriteLine("error");
                                             break;
+                                        default:
+                                            Console.WriteLine("輸入錯誤!請重新輸入!");
+                                            shopping();
+                                            break;
                                             
                                             
                                 }
@@ -251,7 +255,7 @@ namespace Practice1_1
                         shopping();
                         break;
                     case 6:
-                        Console.WriteLine("選擇貨幣 1.TWD 2.USD 3.CNY 4.JPY :");
+                        Console.Write("選擇貨幣 1.TWD 2.USD 3.CNY 4.JPY :");
                         var forex = Console.ReadLine();
                         switch (forex) {
                             case "1":
