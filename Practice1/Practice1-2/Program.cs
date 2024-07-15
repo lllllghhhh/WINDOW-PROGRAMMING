@@ -73,7 +73,7 @@ namespace Practice1_1
                     Console.WriteLine("3." + buyer.compass_block.name +" (TWD)" + buyer.compass_block.price +" " + 
                                       buyer.compass_block.amount + " "+ buyer.compass_block.total_price);
                 }
-                Console.WriteLine("總價:" + (buyer.cord_block.total_price + buyer.belt_block.total_price + 
+                Console.WriteLine("總價 = " + (buyer.cord_block.total_price + buyer.belt_block.total_price + 
                                            buyer.compass_block.total_price) );
             }
             
@@ -222,6 +222,21 @@ namespace Practice1_1
                                             else 
                                                 Console.WriteLine("error");
                                             break;
+                                        case "1111":
+                                            checkout(buyer_1);
+                                            Console.WriteLine("總價(折扣後) = " +
+                                                              (buyer_1.cord_block.total_price +
+                                                               buyer_1.belt_block.total_price +
+                                                               buyer_1.compass_block.total_price) * 0.95);
+                                            if(payment == "1")
+                                                Console.WriteLine("已付款");
+                                            else if(payment == "2")
+                                                Console.WriteLine("尚未付款");
+                                            else 
+                                                Console.WriteLine("error");
+                                            break;
+                                            
+                                            
                                 }
                                 
                                 }
