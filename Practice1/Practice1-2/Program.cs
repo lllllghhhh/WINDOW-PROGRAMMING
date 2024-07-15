@@ -80,7 +80,7 @@ namespace Practice1_1
 
             void shopping()
             {
-                Console.WriteLine("(1)商品列表(2)新增至購物車(3)自購物車刪除(4)查看購物車(5)結帳(6)退出網站");
+                Console.WriteLine("(1)商品列表(2)新增至購物車(3)自購物車刪除(4)查看購物車(5)結帳(6)轉換幣值(7)退出網站");
                 Console.Write("輸入數字選擇功能: ");
                 var option = int.Parse(Console.ReadLine());
                 switch (option) {
@@ -251,6 +251,45 @@ namespace Practice1_1
                         shopping();
                         break;
                     case 6:
+                        Console.WriteLine("選擇貨幣 1.TWD 2.USD 3.CNY 4.JPY :");
+                        var forex = Console.ReadLine();
+                        switch (forex) {
+                            case "1":
+                                Console.WriteLine("列表:\n商品名稱 商品單價");
+                                Console.WriteLine("1.潛水相機防丟繩 (USD)" + buyer_1.cord_block.price );
+                                Console.WriteLine("2.潛水配重帶 (USD)" + buyer_1.belt_block.price );
+                                Console.WriteLine("3.潛水作業指北針 (USD)" + buyer_1.compass_block.price );
+                                shopping();
+                                break;
+                            case "2":
+                                Console.WriteLine("列表:\n商品名稱 商品單價");
+                                Console.WriteLine("1.潛水相機防丟繩 (TWD)" + buyer_1.cord_block.price * 0.031);
+                                Console.WriteLine("2.潛水配重帶 (TWD)" + buyer_1.belt_block.price * 0.031);
+                                Console.WriteLine("3.潛水作業指北針 (TWD)" + buyer_1.compass_block.price * 0.031);
+                                shopping();
+                                break;
+                            case "3" :
+                                Console.WriteLine("列表:\n商品名稱 商品單價");
+                                Console.WriteLine("1.潛水相機防丟繩 (CNY)" + buyer_1.cord_block.price * 0.23);
+                                Console.WriteLine("2.潛水配重帶 (CNY)" + buyer_1.belt_block.price * 0.23);
+                                Console.WriteLine("3.潛水作業指北針 (CNY)" + buyer_1.compass_block.price * 0.23);
+                                shopping();
+                                break;
+                            case "4" :
+                                Console.WriteLine("列表:\n商品名稱 商品單價");
+                                Console.WriteLine("1.潛水相機防丟繩 (JPY)" + buyer_1.cord_block.price * 4.59);
+                                Console.WriteLine("2.潛水配重帶 (JPY)" + buyer_1.belt_block.price * 4.59);
+                                Console.WriteLine("3.潛水作業指北針 (JPY)" + buyer_1.compass_block.price * 4.59);
+                                shopping();
+                                break;
+                            default:
+                                Console.WriteLine("輸入錯誤!請重新輸入!");
+                                shopping();
+                                break;
+                        }
+                        shopping();
+                        break;
+                    case 7:
                         break;
                     default:
                         Console.WriteLine("輸入錯誤!請重新輸入!");
