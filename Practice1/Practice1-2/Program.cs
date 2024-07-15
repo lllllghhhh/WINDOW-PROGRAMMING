@@ -55,11 +55,32 @@ namespace Practice1_1
                 Console.WriteLine("3." + buyer.compass_block.name +" (TWD)" + buyer.compass_block.price +" " + 
                                   buyer.compass_block.amount + " "+buyer.compass_block.total_price);
             }
+
+            void checkout(shopping_cart buyer)
+            {
+                Console.WriteLine("商品 單價 數量 小計");
+                if (buyer.cord_block.amount != 0) {
+                    Console.WriteLine("1." + buyer.cord_block.name +" (TWD)" + buyer.cord_block.price +" " + 
+                                      buyer.cord_block.amount + " "+ buyer.cord_block.total_price);
+                }
+
+                if (buyer_1.belt_block.amount != 0) {
+                    Console.WriteLine("2." + buyer.belt_block.name +" (TWD)" + buyer.belt_block.price +" " + 
+                                      buyer.belt_block.amount + " "+ buyer.belt_block.total_price);
+                }
+
+                if (buyer_1.compass_block.amount != 0) {
+                    Console.WriteLine("3." + buyer.compass_block.name +" (TWD)" + buyer.compass_block.price +" " + 
+                                      buyer.compass_block.amount + " "+ buyer.compass_block.total_price);
+                }
+                Console.WriteLine("總價:" + (buyer.cord_block.total_price + buyer.belt_block.total_price + 
+                                           buyer.compass_block.total_price) );
+            }
             
 
             void shopping()
             {
-                Console.WriteLine("(1)商品列表(2)新增至購物車(3)自購物車刪除(4)查看購物車(5)計算總金額(6)退出網站");
+                Console.WriteLine("(1)商品列表(2)新增至購物車(3)自購物車刪除(4)查看購物車(5)結帳(6)退出網站");
                 Console.Write("輸入數字選擇功能: ");
                 var option = int.Parse(Console.ReadLine());
                 switch (option) {
@@ -156,23 +177,7 @@ namespace Practice1_1
                         break;
                     case 5:
                         Console.WriteLine("購物車內容:");
-                        Console.WriteLine("商品 單價 數量 小計");
-                        if (buyer_1.cord_block.amount != 0) {
-                            Console.WriteLine("1." + buyer_1.cord_block.name +" (TWD)" + buyer_1.cord_block.price +" " + 
-                                              buyer_1.cord_block.amount + " "+buyer_1.cord_block.total_price);
-                        }
-
-                        if (buyer_1.belt_block.amount != 0) {
-                            Console.WriteLine("2." + buyer_1.belt_block.name +" (TWD)" + buyer_1.belt_block.price +" " + 
-                                              buyer_1.belt_block.amount + " "+buyer_1.belt_block.total_price);
-                        }
-
-                        if (buyer_1.compass_block.amount != 0) {
-                            Console.WriteLine("3." + buyer_1.compass_block.name +" (TWD)" + buyer_1.compass_block.price +" " + 
-                                              buyer_1.compass_block.amount + " "+buyer_1.compass_block.total_price);
-                        }
-                        Console.WriteLine("總價:" + (buyer_1.cord_block.total_price + buyer_1.belt_block.total_price + 
-                                                   buyer_1.compass_block.total_price) );
+                        checkout(buyer_1);
                         Console.Write("*是否要結帳(Y/N)*:");
                         var y_or_n = Console.ReadLine();
                         switch (y_or_n) {
@@ -197,8 +202,28 @@ namespace Practice1_1
                                 }
 
                                 if (stock_enough) {
-                                    Console.Write("(選擇結帳方式(1.線上支付 2.貨到付款):");
-                                    var checkout_type = int.Parse(Console.ReadLine());
+                                    Console.Write("*(選擇結帳方式(1.線上支付 2.貨到付款):");
+                                    var payment = Console.ReadLine();
+                                    if (payment != "1" && payment != "2") {
+                                        Console.WriteLine("輸入錯誤!請重新輸入!");
+                                        shopping();
+                                    }
+
+                                    Console.Write("*折扣碼(若無折扣碼則輸入N):");
+                                    var discount_code = Console.ReadLine();
+                                    switch (discount_code) {
+                                        case "N":
+                                            Console.WriteLine("訂單狀態:");
+                                            checkout(buyer_1);
+                                            if(payment == "1")
+                                                Console.WriteLine("已付款");
+                                            else if(payment == "2")
+                                                Console.WriteLine("尚未付款");
+                                            else 
+                                                Console.WriteLine("error");
+                                            break;
+                                }
+                                
                                 }
                                 
                                     
@@ -208,13 +233,6 @@ namespace Practice1_1
                                 shopping();
                                 break;
                         }
-                        
-
-                    {
-                            
-                        }
-                        
-                            
                         shopping();
                         break;
                     case 6:
