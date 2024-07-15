@@ -13,7 +13,7 @@ namespace Practice1_1
 
         struct good
         {
-            public string name;
+            public  string name;
             public int price;
             public int amount;
             public int total_price;
@@ -43,30 +43,12 @@ namespace Practice1_1
             {
                 Console.WriteLine("購物車內容:");
                 Console.WriteLine("商品 單價 數量 小計");
-                Console.Write("1.");
-                Console.Write(buyer.cord_block.name);
-                Console.Write(" (TWD)");
-                Console.Write(buyer.cord_block.price);
-                Console.Write(" ");
-                Console.Write(buyer.cord_block.amount);
-                Console.Write(" ");
-                Console.WriteLine(buyer.cord_block.total_price);
-                Console.Write("2.");
-                Console.Write(buyer.belt_block.name);
-                Console.Write(" (TWD)");
-                Console.Write(buyer.belt_block.price);
-                Console.Write(" ");
-                Console.Write(buyer.belt_block.amount);
-                Console.Write(" ");
-                Console.WriteLine(buyer_1.belt_block.total_price);
-                Console.Write("3.");
-                Console.Write(buyer_1.compass_block.name);
-                Console.Write(" (TWD)");
-                Console.Write(buyer_1.compass_block.price);
-                Console.Write(" ");
-                Console.Write(buyer_1.compass_block.amount);
-                Console.Write(" ");
-                Console.WriteLine(buyer_1.compass_block.total_price);
+                Console.WriteLine("1." + buyer.cord_block.name +" (TWD)" + buyer.cord_block.price +" " + 
+                              buyer.cord_block.amount + " "+buyer.cord_block.total_price);
+                Console.WriteLine("2." + buyer.belt_block.name +" (TWD)" + buyer.belt_block.price +" " + 
+                                  buyer.belt_block.amount + " "+buyer.belt_block.total_price);
+                Console.WriteLine("3." + buyer.compass_block.name +" (TWD)" + buyer.compass_block.price +" " + 
+                                  buyer.compass_block.amount + " "+buyer.compass_block.total_price);
             }
             
 
@@ -91,18 +73,18 @@ namespace Practice1_1
                         var unit = int.Parse(Console.ReadLine());
                         switch (type) {
                             case 1:
-                                buyer_1.cord_block.amount = unit;
-                                buyer_1.cord_block.total_price = unit * safety_cord.price;
+                                buyer_1.cord_block.amount += unit;
+                                buyer_1.cord_block.total_price += unit * safety_cord.price;
                                 shopping();
                                 break;
                             case 2:
-                                buyer_1.belt_block.amount = unit;
-                                buyer_1.belt_block.total_price = unit * weight_belt.price;
+                                buyer_1.belt_block.amount += unit;
+                                buyer_1.belt_block.total_price += unit * weight_belt.price;
                                 shopping();
                                 break;
                             case 3:
-                                buyer_1.compass_block.amount = unit;
-                                buyer_1.compass_block.total_price = unit * compass.price;
+                                buyer_1.compass_block.amount += unit;
+                                buyer_1.compass_block.total_price += unit * compass.price;
                                 shopping();
                                 break;
                             default:
@@ -116,14 +98,14 @@ namespace Practice1_1
                         show_cart_list(buyer_1);
                         Console.Write("輸入數字選擇商品: ");
                         var delete_type = int.Parse(Console.ReadLine());
-                        Console.Write("輸入數量: ");
-                        var delete_unit = int.Parse(Console.ReadLine());
                         switch (delete_type) {
                             case 1:
-                                if (delete_unit > buyer_1.cord_block.amount) 
+                                Console.Write("輸入數量: ");
+                                var delete_unit_cord = int.Parse(Console.ReadLine());
+                                if (delete_unit_cord > buyer_1.cord_block.amount) 
                                     Console.WriteLine("error");
                                 else {
-                                    buyer_1.cord_block.amount -= delete_unit;
+                                    buyer_1.cord_block.amount -= delete_unit_cord;
                                     buyer_1.cord_block.total_price =
                                         buyer_1.cord_block.amount * buyer_1.cord_block.price;
                                     Console.WriteLine("成功刪除商品!");
@@ -131,10 +113,12 @@ namespace Practice1_1
                                 shopping();
                                 break;
                             case 2:
-                                if (delete_unit > buyer_1.belt_block.amount) 
+                                Console.Write("輸入數量: ");
+                                var delete_unit_weight = int.Parse(Console.ReadLine());
+                                if (delete_unit_weight > buyer_1.belt_block.amount) 
                                     Console.WriteLine("error");
                                 else {
-                                    buyer_1.belt_block.amount -= delete_unit;
+                                    buyer_1.belt_block.amount -= delete_unit_weight;
                                     buyer_1.belt_block.total_price = 
                                         buyer_1.belt_block.amount * buyer_1.belt_block.price;
                                     Console.WriteLine("成功刪除商品!");
@@ -142,10 +126,12 @@ namespace Practice1_1
                                 shopping();
                                 break;
                             case 3:
-                                if (delete_unit > buyer_1.compass_block.amount) 
+                                Console.Write("輸入數量: ");
+                                var delete_unit_compass = int.Parse(Console.ReadLine());
+                                if (delete_unit_compass > buyer_1.compass_block.amount) 
                                     Console.WriteLine("error");
                                 else {
-                                    buyer_1.compass_block.amount -= delete_unit;
+                                    buyer_1.compass_block.amount -= delete_unit_compass;
                                     buyer_1.compass_block.total_price =
                                         buyer_1.compass_block.amount * buyer_1.compass_block.price;
                                     Console.WriteLine("成功刪除商品!");
@@ -164,6 +150,24 @@ namespace Practice1_1
                         shopping();
                         break;
                     case 5:
+                        Console.WriteLine("購物車內容:");
+                        Console.WriteLine("商品 單價 數量 小計");
+                        if (buyer_1.cord_block.amount != 0) {
+                            Console.WriteLine("1." + buyer_1.cord_block.name +" (TWD)" + buyer_1.cord_block.price +" " + 
+                                              buyer_1.cord_block.amount + " "+buyer_1.cord_block.total_price);
+                        }
+
+                        if (buyer_1.belt_block.amount != 0) {
+                            Console.WriteLine("2." + buyer_1.belt_block.name +" (TWD)" + buyer_1.belt_block.price +" " + 
+                                              buyer_1.belt_block.amount + " "+buyer_1.belt_block.total_price);
+                        }
+
+                        if (buyer_1.compass_block.amount != 0) {
+                            Console.WriteLine("3." + buyer_1.compass_block.name +" (TWD)" + buyer_1.compass_block.price +" " + 
+                                              buyer_1.compass_block.amount + " "+buyer_1.compass_block.total_price);
+                        }
+                        Console.WriteLine("總價:" + (buyer_1.cord_block.total_price + buyer_1.belt_block.total_price + 
+                                                   buyer_1.compass_block.total_price) );
                         shopping();
                         break;
                     case 6:
