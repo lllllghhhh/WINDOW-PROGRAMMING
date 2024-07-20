@@ -4,25 +4,51 @@ using System.IO;
 
 namespace Practice1_1
 {
-    internal class Program {
-        struct good
-        {
-            public string name;
-            public int price;
-            public int stock;
-            public int amount;
-            public int total_price;
+    struct good
+    {
+        public string name;
+        public int price;
+        public int stock;
+        public int amount;
+        public int total_price;
+    }
+
+    struct order
+    {
+        public Dictionary<good, uint> order_list;
+        public int original_price;
+        public int final_price;
+        public bool paid;
+
+        public void print() {
+            Console.WriteLine("訂單狀態：\n商品 單價 數量 小計");
+            foreach (var item in order_list)
+                Console.WriteLine("{0} NTD${1} {2} {3}", item.Key.name, item.Key.price, item.Value, item.Key.price * item.Value);
+            Console.WriteLine("總價 = " + original_price);
+            if (original_price != final_price)
+                Console.WriteLine("總價(折扣後) = " + final_price);
+            Console.WriteLine("狀態：{0}付款", paid ? "已" : "未");
         }
-            
+    }
+
+    internal class Program {
+
         static List<good> item_list = new List<good>{
             new good{name = "潛水相機防丟繩", price = 199, stock = 10},
             new good{name = "潛水配重帶", price = 460, stock = 10},
             new good{name = "潛水作業指北針", price = 1100, stock = 10}
         };
 
+        static List<Tuple<string, float>> currency = new List<Tuple<string, float>> {
+            new Tuple<string, float>("NTD", 1f),
+            new Tuple<string, float>("USD", 0.031f),
+            new Tuple<string, float>("CNY", 0.23f),
+            new Tuple<string, float>("JPY", 4.59f),
+        };
+
         class shopping_cart
         {
-            private Dictionary<good, uint> cart_items;
+            public Dictionary<good, uint> cart_items = new Dictionary<good, uint>();
 
             public bool add_item(int item_id, uint count) {
                 var current_item = item_list[item_id];
@@ -32,268 +58,215 @@ namespace Practice1_1
                 cart_items[current_item] = original_count + count;
                 return true;
             }
+
+            public void remove_item(int item_id, uint count) {
+                var current_item = item_list[item_id];
+                cart_items.TryGetValue(current_item, out uint original_count);
+                if (original_count <= count)
+                    cart_items.Remove(current_item);
+                else
+                    cart_items[current_item] = original_count - count;
+            }
+
+            public void print_by_id(uint use_currency = 0) {
+                Console.WriteLine("購物車內容:\n商品 單價 數量 小計");
+                var currency_data = currency[(int) use_currency];
+                for (uint i = 0; i < item_list.Count; ++i) {
+                    var item = item_list[(int) i];
+                    cart_items.TryGetValue(item, out uint cart_count);
+                    Console.WriteLine("{0}. {1} {5}${2} {3} {4}", i + 1, item.name, item.price, cart_count, item.price * cart_count * currency_data.Item2, currency_data.Item1);
+                }
+            }
+
+            public void print() {
+                Console.WriteLine("商品 單價 數量 小計");
+                foreach (var item in cart_items)
+                    Console.WriteLine("{0} NTD${1} {2} {3}", item.Key.name, item.Key.price, item.Value, item.Key.price * item.Value);
+            }
+
+            public int total_price() {
+                int result = 0;
+                foreach (var item in cart_items)
+                    result += (int) (item.Key.price * item.Value);
+                return result;
+            }
         }
 
-        private static shopping_cart current_user;
+        private static shopping_cart current_user = new shopping_cart();
 
-        static void print_all_items(bool print_only_name = false) {
-            if (!print_only_name)
-                Console.WriteLine("列表:\n商品名稱 商品單價");
+        static void print_all_items(uint use_currency = 0) {
+            var currency_data = currency[(int) use_currency];
+            Console.WriteLine("列表:\n商品名稱 商品單價");
             for (int i = 0; i < item_list.Count; ++i) {
                 var item = item_list[i];
-                if (print_only_name)
-                    Console.Write("({0}) {1} ", i + 1, item.name);
-                else
-                    Console.WriteLine("{0}. {1} NTD${2}", i + 1, item.name, item.price);
+                Console.WriteLine("{0}. {1} {3}${2}", i + 1, item.name, item.price * currency_data.Item2, currency_data.Item1);
             }
         }
+
+        static void print_simple_items() {
+            for (int i = 0; i < item_list.Count; ++i)
+                Console.Write("({0}) {1} ", i + 1, item_list[i].name);
+        }
+
+        static void print_available_currency() {
+            uint i = 1;
+            foreach (var p in currency)
+                Console.Write("{0}. {1} ", i++, p.Item1);
+        }
         
-        
-        public static void Main(string[] args) {
-
-            void show_cart_list(shopping_cart buyer)
-            {
-                Console.WriteLine("購物車內容:");
-                Console.WriteLine("商品 單價 數量 小計");
-                Console.WriteLine("1." + buyer.cord_block.name +" (TWD)" + buyer.cord_block.price +" " + 
-                              buyer.cord_block.amount + " "+buyer.cord_block.total_price);
-                Console.WriteLine("2." + buyer.belt_block.name +" (TWD)" + buyer.belt_block.price +" " + 
-                                  buyer.belt_block.amount + " "+buyer.belt_block.total_price);
-                Console.WriteLine("3." + buyer.compass_block.name +" (TWD)" + buyer.compass_block.price +" " + 
-                                  buyer.compass_block.amount + " "+buyer.compass_block.total_price);
-            }
-
-            void checkout(shopping_cart buyer)
-            {
-                Console.WriteLine("商品 單價 數量 小計");
-                if (buyer.cord_block.amount != 0) {
-                    Console.WriteLine("1." + buyer.cord_block.name +" (TWD)" + buyer.cord_block.price +" " + 
-                                      buyer.cord_block.amount + " "+ buyer.cord_block.total_price);
-                }
-
-                if (buyer_1.belt_block.amount != 0) {
-                    Console.WriteLine("2." + buyer.belt_block.name +" (TWD)" + buyer.belt_block.price +" " + 
-                                      buyer.belt_block.amount + " "+ buyer.belt_block.total_price);
-                }
-
-                if (buyer_1.compass_block.amount != 0) {
-                    Console.WriteLine("3." + buyer.compass_block.name +" (TWD)" + buyer.compass_block.price +" " + 
-                                      buyer.compass_block.amount + " "+ buyer.compass_block.total_price);
-                }
-                Console.WriteLine("總價 = " + (buyer.cord_block.total_price + buyer.belt_block.total_price + 
-                                           buyer.compass_block.total_price) );
-            }
-            
-
-            void shopping()
-            {
-                Console.WriteLine("(1)商品列表(2)新增至購物車(3)自購物車刪除(4)查看購物車(5)結帳(6)轉換幣值(7)退出網站");
-                Console.Write("輸入數字選擇功能: ");
-                var option = int.Parse(Console.ReadLine());
-                switch (option) {
-                    case 1:
-                        print_all_items();
-                        break;
-                    case 2:
-                        int type;
-                        while (true) {
-                            print_all_items(true);
-                            Console.Write("\n輸入數字選擇商品: ");
+        static bool shopping()
+        {
+            Console.WriteLine("(1)商品列表(2)新增至購物車(3)自購物車刪除(4)查看購物車(5)結帳(6)轉換幣值(7)退出網站");
+            Console.Write("輸入數字選擇功能: ");
+            switch (Console.ReadLine()) {
+                case "1":
+                    print_all_items();
+                    break;
+                case "2":
+                    int type;
+                    while (true) {
+                        print_simple_items();
+                        Console.Write("\n輸入數字選擇商品: ");
+                        try {
                             type = int.Parse(Console.ReadLine());
-                            if (type < item_list.Count && type > 0)
-                                break;
-                            Console.WriteLine("找不到商品{0}，請重新輸入。", type);
+                        } catch {
+                            Console.WriteLine("輸入錯誤，重新輸入！");
+                            continue;
                         }
+                        if (type <= item_list.Count && type > 0)
+                            break;
+                        Console.WriteLine("找不到商品{0}，請重新輸入。", type);
+                    }
+
+                    while (true) {
                         Console.Write("輸入數量: ");
-                        var unit = uint.Parse(Console.ReadLine());
+                        uint unit;
+                        try {
+                            unit = uint.Parse(Console.ReadLine());
+                        }
+                        catch {
+                            Console.WriteLine("輸入錯誤，重新輸入！");
+                            continue;
+                        }
                         if (!current_user.add_item(type - 1, unit))
                             Console.WriteLine("Too many items!!!");
                         break;
-                    case 3:
-                        show_cart_list(buyer_1);
-                        Console.Write("輸入數字選擇商品: ");
-                        var delete_type = int.Parse(Console.ReadLine());
-                        switch (delete_type) {
-                            case 1:
-                                Console.Write("輸入數量: ");
-                                var delete_unit_cord = int.Parse(Console.ReadLine());
-                                if (delete_unit_cord > buyer_1.cord_block.amount) 
-                                    Console.WriteLine("error");
-                                else {
-                                    buyer_1.cord_block.amount -= delete_unit_cord;
-                                    buyer_1.cord_block.total_price =
-                                        buyer_1.cord_block.amount * buyer_1.cord_block.price;
-                                    Console.WriteLine("成功刪除商品!");
-                                }
-                                shopping();
-                                break;
-                            case 2:
-                                Console.Write("輸入數量: ");
-                                var delete_unit_weight = int.Parse(Console.ReadLine());
-                                if (delete_unit_weight > buyer_1.belt_block.amount) 
-                                    Console.WriteLine("error");
-                                else {
-                                    buyer_1.belt_block.amount -= delete_unit_weight;
-                                    buyer_1.belt_block.total_price = 
-                                        buyer_1.belt_block.amount * buyer_1.belt_block.price;
-                                    Console.WriteLine("成功刪除商品!");
-                                }
-                                shopping();
-                                break;
-                            case 3:
-                                Console.Write("輸入數量: ");
-                                var delete_unit_compass = int.Parse(Console.ReadLine());
-                                if (delete_unit_compass > buyer_1.compass_block.amount) 
-                                    Console.WriteLine("error");
-                                else {
-                                    buyer_1.compass_block.amount -= delete_unit_compass;
-                                    buyer_1.compass_block.total_price =
-                                        buyer_1.compass_block.amount * buyer_1.compass_block.price;
-                                    Console.WriteLine("成功刪除商品!");
-                                }
-                                shopping();
-                                break;
-                            default:
-                                Console.WriteLine("輸入錯誤!請重新輸入!");
-                                shopping();
-                                break;
+                    }
+                    break;
+                case "3":
+                    while (true) {
+                        current_user.print_by_id();
+                        Console.Write("\n輸入數字選擇商品: ");
+                        try {
+                            type = int.Parse(Console.ReadLine());
                         }
-
+                        catch  {
+                            Console.WriteLine("error!! input again!");
+                            continue;
+                        }
+                        if (type <= item_list.Count && type > 0)
+                            break;
+                        Console.WriteLine("找不到商品{0}，請重新輸入。", type);
+                    }
+                    while (true) {
+                        Console.Write("輸入數量: ");
+                        try {
+                            current_user.remove_item(type - 1, uint.Parse(Console.ReadLine()));
+                        }
+                        catch {
+                            Console.WriteLine("error!! input again!");
+                            continue;
+                        }
                         break;
-                    case 4:
-                        show_cart_list(buyer_1);
-                        shopping();
-                        break;
-                    case 5:
-                        Console.WriteLine("購物車內容:");
-                        checkout(buyer_1);
-                        Console.Write("*是否要結帳(Y/N)*:");
-                        var y_or_n = Console.ReadLine();
-                        switch (y_or_n) {
-                            case "N":
-                                shopping();
-                                break;
-                            case "Y":
-                                bool stock_enough = true;
-                                if (buyer_1.cord_block.amount > buyer_1.cord_block.stock) {
-                                    Console.WriteLine("潛水相機防丟繩庫存不足!剩餘數量" + buyer_1.cord_block.stock + "!");
-                                    stock_enough = false;
-                                }
-
-                                if (buyer_1.belt_block.amount > buyer_1.belt_block.stock) {
-                                    Console.WriteLine("潛水配重帶庫存不足!剩餘數量" + buyer_1.belt_block.stock + "!");
-                                    stock_enough = false;
-                                }
-
-                                if (buyer_1.compass_block.amount > buyer_1.compass_block.stock) {
-                                    Console.WriteLine("潛水作業指北針庫存不足!剩餘數量" + buyer_1.compass_block.stock + "!");
-                                    stock_enough = false;
-                                }
-
-                                if (stock_enough) {
-                                    Console.Write("*(選擇結帳方式(1.線上支付 2.貨到付款):");
-                                    var payment = Console.ReadLine();
-                                    if (payment != "1" && payment != "2") {
+                    }
+                    break;
+                case "4":
+                    current_user.print_by_id();
+                    break;
+                case "5":
+                    Console.WriteLine("購物車內容:");
+                    current_user.print();
+                    Console.WriteLine("總價 = " + current_user.total_price());
+                    Console.Write("*是否要結帳(Y/N)*:");
+                    var y_or_n = Console.ReadLine();
+                    switch (y_or_n) {
+                        case "N":
+                            shopping();
+                            break;
+                        case "Y":
+                            order current_order = new order();
+                            current_order.order_list = current_user.cart_items;
+                            current_order.final_price = current_order.original_price = current_user.total_price();
+                            while (true) {
+                                Console.Write("*選擇結帳方式(1.線上支付 2.貨到付款):");
+                                switch (Console.ReadLine()) {
+                                    case "1":
+                                        current_order.paid = true;
+                                        break;
+                                    case "2":
+                                        current_order.paid = false;
+                                        break;
+                                    default:
                                         Console.WriteLine("輸入錯誤!請重新輸入!");
-                                        shopping();
-                                    }
-
-                                    Console.Write("*折扣碼(若無折扣碼則輸入N):");
-                                    var discount_code = Console.ReadLine();
-                                    switch (discount_code) {
-                                        case "N":
-                                            Console.WriteLine("訂單狀態:");
-                                            checkout(buyer_1);
-                                            if(payment == "1")
-                                                Console.WriteLine("已付款");
-                                            else if(payment == "2")
-                                                Console.WriteLine("尚未付款");
-                                            else 
-                                                Console.WriteLine("error");
-                                            break;
-                                        case "1111":
-                                            checkout(buyer_1);
-                                            Console.WriteLine("總價(折扣後) = " +
-                                                              (buyer_1.cord_block.total_price +
-                                                               buyer_1.belt_block.total_price +
-                                                               buyer_1.compass_block.total_price) * 0.95);
-                                            if(payment == "1")
-                                                Console.WriteLine("已付款");
-                                            else if(payment == "2")
-                                                Console.WriteLine("尚未付款");
-                                            else 
-                                                Console.WriteLine("error");
-                                            break;
-                                        default:
-                                            Console.WriteLine("輸入錯誤!請重新輸入!");
-                                            shopping();
-                                            break;
-                                            
-                                            
+                                        continue;
                                 }
-                                
+                                break;
+                            }
+                            while (true) {
+                                Console.Write("*折扣碼(若無折扣碼則輸入N):");
+                                switch (Console.ReadLine()) {
+                                    case "N":
+                                        break;
+                                    case "1111":
+                                        current_order.final_price = (int) (current_order.final_price * 0.95);
+                                        break;
+                                    default:
+                                        Console.WriteLine("輸入錯誤!請重新輸入!");
+                                        continue;
                                 }
-                                
-                                    
                                 break;
-                            default:
-                                Console.WriteLine("輸入錯誤!請重新輸入!");
-                                shopping();
-                                break;
+                            }
+                            current_order.print();
+                            break;
+                        default:
+                            Console.WriteLine("輸入錯誤!請重新輸入!");
+                            break;
+                    }
+                    break;
+                case "6":
+                    while (true) {
+                        Console.Write("選擇貨幣 ");
+                        print_available_currency();
+                        Console.Write(":");
+                        uint forex;
+                        try {
+                            forex = uint.Parse(Console.ReadLine());
                         }
-                        shopping();
-                        break;
-                    case 6:
-                        Console.Write("選擇貨幣 1.TWD 2.USD 3.CNY 4.JPY :");
-                        var forex = Console.ReadLine();
-                        switch (forex) {
-                            case "1":
-                                Console.WriteLine("列表:\n商品名稱 商品單價");
-                                Console.WriteLine("1.潛水相機防丟繩 (USD)" + buyer_1.cord_block.price );
-                                Console.WriteLine("2.潛水配重帶 (USD)" + buyer_1.belt_block.price );
-                                Console.WriteLine("3.潛水作業指北針 (USD)" + buyer_1.compass_block.price );
-                                shopping();
-                                break;
-                            case "2":
-                                Console.WriteLine("列表:\n商品名稱 商品單價");
-                                Console.WriteLine("1.潛水相機防丟繩 (TWD)" + buyer_1.cord_block.price * 0.031);
-                                Console.WriteLine("2.潛水配重帶 (TWD)" + buyer_1.belt_block.price * 0.031);
-                                Console.WriteLine("3.潛水作業指北針 (TWD)" + buyer_1.compass_block.price * 0.031);
-                                shopping();
-                                break;
-                            case "3" :
-                                Console.WriteLine("列表:\n商品名稱 商品單價");
-                                Console.WriteLine("1.潛水相機防丟繩 (CNY)" + buyer_1.cord_block.price * 0.23);
-                                Console.WriteLine("2.潛水配重帶 (CNY)" + buyer_1.belt_block.price * 0.23);
-                                Console.WriteLine("3.潛水作業指北針 (CNY)" + buyer_1.compass_block.price * 0.23);
-                                shopping();
-                                break;
-                            case "4" :
-                                Console.WriteLine("列表:\n商品名稱 商品單價");
-                                Console.WriteLine("1.潛水相機防丟繩 (JPY)" + buyer_1.cord_block.price * 4.59);
-                                Console.WriteLine("2.潛水配重帶 (JPY)" + buyer_1.belt_block.price * 4.59);
-                                Console.WriteLine("3.潛水作業指北針 (JPY)" + buyer_1.compass_block.price * 4.59);
-                                shopping();
-                                break;
-                            default:
-                                Console.WriteLine("輸入錯誤!請重新輸入!");
-                                shopping();
-                                break;
+                        catch {
+                            Console.WriteLine("error!! input again!");
+                            continue;
                         }
-                        shopping();
+                        if (forex > currency.Count || forex == 0) {
+                            Console.WriteLine("error!! input again!");
+                            continue;
+                        }
+                        print_all_items(forex - 1);
                         break;
-                    case 7:
-                        break;
-                    default:
-                        Console.WriteLine("輸入錯誤!請重新輸入!");
-                        shopping();
-                        break;
-                    
-                }
+                    }
+                    break;
+                case "7":
+                    return false;
+                default:
+                    Console.WriteLine("輸入錯誤!請重新輸入!");
+                    break;
             }
 
-            shopping();
-            
+            return true;
+        }
+        
+        public static void Main(string[] args) {
+            while (shopping())
+                ;
         }
     }
 }
