@@ -66,6 +66,9 @@ namespace Practice2_1
                 }
                 else if(Console.ReadLine().StartsWith("print"))
                     student_1.print_grade_report();
+                else 
+                    return false;
+                
                 return true;
             }
         public static void Main(string[] args)
