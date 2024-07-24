@@ -10,10 +10,12 @@ namespace Practice2_1
         {
             public List<transcript> grade_report = new List<transcript>();
 
-            static void create_transcript(transcript transcript_1)
+            public void print_grade_report()
             {
-                student_1.grade_report.Add(transcript_1);
-                
+                Console.WriteLine("我的成績單:\n編號\t科目代碼\t分數\t等第\t學分數");
+                foreach (var trans in grade_report) {
+                    Console.WriteLine(trans.index + "\t" + trans.class_code + "\t" + trans.grade + "\t" + trans.grade + "\t" + trans.credit);
+                }
             }
         }
         struct transcript
@@ -38,11 +40,15 @@ namespace Practice2_1
                 Console.Write("輸入要執行的指令操作:");
                 if (Console.ReadLine().StartsWith("create")) {
                     string[] create_array = Console.ReadLine().Split(' ');
+                    foreach (var VARIABLE in create_array) {
+                        Console.WriteLine(VARIABLE);
+                    }
                     transcript transcript_1 = new transcript { index = 0, class_code = "0", grade = 0, level = "0", credit = 0 };
                     transcript_1.class_code = create_array[1];
                     transcript_1.grade = int.Parse(create_array[2]);
                     transcript_1.credit = int.Parse(create_array[3]);
                     student_1.grade_report.Add(transcript_1);
+                    student_1.print_grade_report();
                     
                 }
                 else if (Console.ReadLine().StartsWith("delete")) {
@@ -58,7 +64,8 @@ namespace Practice2_1
                             
                     }
                 }
-
+                else if(Console.ReadLine().StartsWith("print"))
+                    student_1.print_grade_report();
                 return true;
             }
         public static void Main(string[] args)
