@@ -38,8 +38,9 @@ namespace Practice2_1
             {
                 Console.WriteLine("1. 新增科目(create)\n2. 刪除科目(delete)\n3. 更新科目(update)\n4. 列印成績單(print)\n5. 退出選單(exit)");
                 Console.Write("輸入要執行的指令操作:");
-                if (Console.ReadLine().StartsWith("create")) {
-                    string[] create_array = Console.ReadLine().Split(' ');
+                var method = Console.ReadLine();
+                if (method.StartsWith("create")) {
+                    string[] create_array = method.Split(' ');
                     foreach (var VARIABLE in create_array) {
                         Console.WriteLine(VARIABLE);
                     }
@@ -51,8 +52,8 @@ namespace Practice2_1
                     student_1.print_grade_report();
                     
                 }
-                else if (Console.ReadLine().StartsWith("delete")) {
-                    string[] delete_array = Console.ReadLine().Split(' ');
+                else if (method.StartsWith("delete")) {
+                    string[] delete_array = method.Split(' ');
                     foreach (var item in student_1.grade_report ) {
                         if (item.class_code == delete_array[1]) {
                             student_1.grade_report.Remove(item);
