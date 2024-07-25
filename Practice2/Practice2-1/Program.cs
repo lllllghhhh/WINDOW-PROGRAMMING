@@ -6,84 +6,112 @@ namespace Practice2_1
 {
     internal class Program
     {
-        class student
-        {
-            public List<transcript> grade_report = new List<transcript>();
+        class student {
+
+            public Dictionary<string, entry> grades = new Dictionary<string, entry>();
 
             public void print_grade_report()
             {
-                Console.WriteLine("我的成績單:\n編號\t科目代碼\t分數\t等第\t學分數");
-                int i = 0;
-                foreach (var trans in grade_report) {
-                    Console.WriteLine(++i + "\t" + trans.class_code + "\t\t" + trans.grade + "\t" + trans.grade + "\t" + trans.credit);
+                Console.WriteLine("我的成績單:\n編號 科目代碼\t分數\t等第\t學分數");
+                uint i = 0;
+                foreach (var trans in grades) {
+                    Console.WriteLine("{0,4} {1,-16}{2,-8}{3,-8}{4}",
+                        ++i, trans.Key, trans.Value.grade, grade_to_level(trans.Value.grade), trans.Value.credit);
                 }
             }
-        }
-        struct transcript
-        {
-            public int index;
-            public string class_code;
-            public int grade;
-            public string level;
-            public int credit;
-            
+
+            public string export() {
+                string result = "";
+                foreach (var trans in grades)
+                    result += string.Format($"create {trans.Key} {trans.Value.grade} {trans.Value.credit}\n");
+                return result;
+            }
         }
 
-        private static List<transcript> transcripts_lists = new List<transcript>
+        enum level
         {
-            new transcript { index = 0, class_code = "0", grade = 0, level = "0", credit = 0 }
-        };
+            A, B, C, D, F
+        }
 
+        static level grade_to_level(ushort grade) {
+            if (grade >= 90)
+                return level.A;
+            if (grade >= 80)
+                return level.B;
+            if (grade >= 70)
+                return level.C;
+            if (grade >= 60)
+                return level.D;
+            return level.F;
+        }
+
+        class entry {
+
+            public ushort grade;
+            public ushort credit;
+
+            public entry(string grade, string credit) {
+                try {
+                    var __grade = ushort.Parse(grade);
+                    if (__grade > 100)
+                        throw new ArgumentOutOfRangeException(nameof(grade), "必須大於0");
+                    this.grade = __grade;
+                }
+                catch (FormatException) {
+                    throw new ArgumentException("必須為數字", nameof(grade));
+                }
+                if (!ushort.TryParse(credit, out this.credit))
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+        
         private static student student_1 = new student();
-        static bool show()
-            {
-                Console.WriteLine("1. 新增科目(create)\n2. 刪除科目(delete)\n3. 更新科目(update)\n4. 列印成績單(print)\n5. 退出選單(exit)");
-                Console.Write("輸入要執行的指令操作:");
-                var method = Console.ReadLine();
-                if (method.StartsWith("create")) {
-                    string[] create_array = method.Split(' ');
-                    transcript transcript_1 = new transcript { index = 0, class_code = "0", grade = 0, level = "0", credit = 0 };
-                    transcript_1.class_code = create_array[1];
-                    transcript_1.grade = int.Parse(create_array[2]);
-                    transcript_1.credit = int.Parse(create_array[3]);
-                    student_1.grade_report.Add(transcript_1);
+
+        static bool show() {
+            Console.WriteLine("1. 新增科目(create)\n2. 刪除科目(delete)\n3. 更新科目(update)\n4. 列印成績單(print)\n5. 退出選單(exit)\n6. export");
+            Console.Write("輸入要執行的指令操作:");
+            var method = Console.ReadLine();
+            string[] array = method.Split(' ');
+            switch (array[0]) {
+                case "create":
+                    if (array.Length < 4) {
+                        Console.WriteLine("error");
+                        break;
+                    }
+                    student_1.grades.Add(array[1], new entry(array[2], array[3]));
                     student_1.print_grade_report();
-                    
-                }
-                else if (method.StartsWith("delete")) {
-                    string[] delete_array = method.Split(' ');
-                    var itemToRemove = student_1.grade_report.Find(item => item.class_code == delete_array[1]);
-                    if (itemToRemove.class_code != null)  
-                    {
-                        student_1.grade_report.Remove(itemToRemove);
+                    break;
+                case "delete":
+                    if (student_1.grades.Remove(array[1]))
+                        student_1.print_grade_report();
+                    else
+                        Console.WriteLine("error");
+                    break;
+                case "update":
+                    if (student_1.grades.ContainsKey(array[1])) {
+                        var update_item = student_1.grades[array[1]];
+                        update_item.grade = ushort.Parse(array[2]);
+                        update_item.credit = ushort.Parse(array[3]);
                         student_1.print_grade_report();
                     }
-                    else {
+                    else
                         Console.WriteLine("error");
-                    }
-                }
-                else if (method.StartsWith("update")) {
-                    string[] update_array = method.Split(' ');
-                    var update_item_index = student_1.grade_report.FindIndex(item => item.class_code == update_array[1]);
-                    if (update_item_index != -1)  
-                    {
-                        transcript transcript_1 = new transcript { index = 0, class_code = update_array[1], grade = int.Parse(update_array[2]), level = "0", credit = int.Parse(update_array[3]) };
-                        student_1.grade_report[update_item_index] = transcript_1;
-                        student_1.print_grade_report();
-                    }
-                    else {
-                        Console.WriteLine("error");
-                    }
-                }
-                else if(method.StartsWith("print"))
+                    break;
+                case "print":
                     student_1.print_grade_report();
-                else if (method == "exit")
+                    break;
+                case "exit":
                     return false;
-                else 
-                    Console.WriteLine("error");
-                
-                return true;
+                case "export":
+                    Console.WriteLine(student_1.export());
+                    break;
+                default:
+                    Console.WriteLine("error: {0}", array[0]);
+                    break;
             }
+            return true;
+        }
+
         public static void Main(string[] args)
         {
             while (show())
