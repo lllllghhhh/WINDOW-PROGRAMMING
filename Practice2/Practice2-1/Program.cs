@@ -13,8 +13,9 @@ namespace Practice2_1
             public void print_grade_report()
             {
                 Console.WriteLine("我的成績單:\n編號\t科目代碼\t分數\t等第\t學分數");
+                int i = 0;
                 foreach (var trans in grade_report) {
-                    Console.WriteLine(trans.index + "\t" + trans.class_code + "\t\t" + trans.grade + "\t" + trans.grade + "\t" + trans.credit);
+                    Console.WriteLine(++i + "\t" + trans.class_code + "\t\t" + trans.grade + "\t" + trans.grade + "\t" + trans.credit);
                 }
             }
         }
@@ -55,6 +56,23 @@ namespace Practice2_1
                     if (itemToRemove.class_code != null)  
                     {
                         student_1.grade_report.Remove(itemToRemove);
+                        student_1.print_grade_report();
+                    }
+                    else {
+                        Console.WriteLine("error");
+                    }
+                }
+                else if (method.StartsWith("update")) {
+                    string[] update_array = method.Split(' ');
+                    var update_item = student_1.grade_report.Find(item => item.class_code == update_array[1]);
+                    if (update_item.class_code != null)  
+                    {
+                        student_1.grade_report.Remove(update_item);
+                        transcript transcript_1 = new transcript { index = 0, class_code = "0", grade = 0, level = "0", credit = 0 };
+                        transcript_1.class_code = update_array[1];
+                        transcript_1.grade = int.Parse(update_array[2]);
+                        transcript_1.credit = int.Parse(update_array[3]);
+                        student_1.grade_report.Insert(update_item.index,transcript_1);
                         student_1.print_grade_report();
                     }
                     else {
