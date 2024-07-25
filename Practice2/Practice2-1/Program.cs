@@ -64,15 +64,11 @@ namespace Practice2_1
                 }
                 else if (method.StartsWith("update")) {
                     string[] update_array = method.Split(' ');
-                    var update_item = student_1.grade_report.Find(item => item.class_code == update_array[1]);
-                    if (update_item.class_code != null)  
+                    var update_item_index = student_1.grade_report.FindIndex(item => item.class_code == update_array[1]);
+                    if (update_item_index != -1)  
                     {
-                        student_1.grade_report.Remove(update_item);
-                        transcript transcript_1 = new transcript { index = 0, class_code = "0", grade = 0, level = "0", credit = 0 };
-                        transcript_1.class_code = update_array[1];
-                        transcript_1.grade = int.Parse(update_array[2]);
-                        transcript_1.credit = int.Parse(update_array[3]);
-                        student_1.grade_report.Insert(update_item.index,transcript_1);
+                        transcript transcript_1 = new transcript { index = 0, class_code = update_array[1], grade = int.Parse(update_array[2]), level = "0", credit = int.Parse(update_array[3]) };
+                        student_1.grade_report[update_item_index] = transcript_1;
                         student_1.print_grade_report();
                     }
                     else {
