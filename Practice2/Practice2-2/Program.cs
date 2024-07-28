@@ -66,26 +66,45 @@ namespace Practice2_2
         {
             for (int i = 0; i < y_size; i++) {
                 for (int j = 0; j < x_size; j++) {
-                    Console.Write(view_state[j, i]);
+                    Console.Write(" " + view_state[j, i]);
                 }
                 Console.WriteLine();
             }
+            
+                
         }
     }
     
     internal class Program {
         
         public static void Main(string[] args)
-        {
+        {  
+            Console.WriteLine("設定遊戲參數"); 
+            Console.Write("輸入空間大小: ");
            var k = Console.ReadLine().Split(',').Select(uint.Parse).ToArray();
+           Console.Write("輸入鬼的數量:");
            var ghost = uint.Parse(Console.ReadLine());
+           if (k[0] * k[1] <= ghost) {
+               Console.WriteLine("遊戲參數錯誤!");
+               Environment.Exit(0);
+           }
+           Console.Clear();
            var board = new Board(k[0], k[1], ghost);
            uint[] c;
            do {
                board.print();
+               Console.Write("輸入要查看的位置: ");
                c = Console.ReadLine().Split(',').Select(uint.Parse).ToArray();
+               Console.Clear();
            } while (board.view(c[0], c[1]));
            board.print();
+           if(!board.view(c[0], c[1]))
+               Console.WriteLine("遊戲結束! 你被鬼抓到了");
+           else 
+               Console.WriteLine("遊戲結束! 你成功躲避所有的鬼了");
+           
+        
+           
         }
     }
 }
