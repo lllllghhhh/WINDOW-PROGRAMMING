@@ -16,10 +16,26 @@ namespace Practice2_1
                 Console.WriteLine("我的成績單:\n編號 科目代碼\t分數\t等第\t學分數");
                 var sorted_grades = grades.OrderByDescending(entry => entry.Value.grade).Select((entry, index) => new { Index = index + 1, Entry = entry });
                 uint i = 0;
+                float total_grade = 0;
+                double get_new_GPA = 0;
+                double get_old_GPA = 0;
+                uint total_credit = 0;
+                uint get_credit = 0;
                 foreach (var trans in sorted_grades) {
-                    Console.WriteLine("{0,4}  {1,-11}{2,-8}{3,-8} {4}",
+                    Console.WriteLine("{0,-4}  {1,-11}{2,-8}{3,-8} {4}",
                         ++i, trans.Entry.Key, trans.Entry.Value.grade, grade_to_level(trans.Entry.Value.grade), trans.Entry.Value.credit);
+                    total_grade += trans.Entry.Value.grade * trans.Entry.Value.credit;
+                    total_credit += trans.Entry.Value.credit;
+                    if (trans.Entry.Value.grade >= 60)
+                        get_credit += trans.Entry.Value.credit;
+                    get_new_GPA += new_GPA(trans.Entry.Value.grade) * trans.Entry.Value.credit;
+                    get_old_GPA += old_GPA(trans.Entry.Value.grade) * trans.Entry.Value.credit;
+
                 }
+                Console.WriteLine(" 總平均: {0}", Math.Round(total_grade / total_credit, 2));
+                Console.WriteLine("GPA: {0}/4.0 (舊制), {1}/4.3 (新制)", Math.Round(get_old_GPA/ total_credit, 1), Math.Round(get_new_GPA/ total_credit, 1));
+                Console.WriteLine("實拿學分數/總學分數: {0}/{1}", get_credit,total_credit);
+                
             }
 
             public string export() {
@@ -30,7 +46,42 @@ namespace Practice2_1
             }
         }
 
+        static double new_GPA(uint grade)
+        {
+            if (grade >= 90)
+                return 4.3;
+            if (grade >= 85)
+                return 4.0;
+            if (grade >= 80)
+                return 3.7;
+            if (grade >= 77)
+                return 3.3;
+            if (grade >= 73)
+                return 3.0;
+            if (grade >= 70)
+                return 2.7;
+            if (grade >= 67)
+                return 2.3;
+            if (grade >= 63)
+                return 2.0;
+            if (grade >= 60)
+                return 1.7;
+            return 0;
+        }
 
+        static double old_GPA(uint grade)
+        {
+            if (grade >= 80)
+                return 4;
+            if (grade >= 70)
+                return 3;
+            if (grade >= 60)
+                return 3;
+            if (grade >= 50)
+                return 1;
+            return 0;
+        }
+        
         static string grade_to_level(uint grade)
         {
             if (grade >= 90)
