@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 
 namespace Practice2_1
@@ -9,14 +10,15 @@ namespace Practice2_1
         class student {
 
             public Dictionary<string, entry> grades = new Dictionary<string, entry>();
-
+            
             public void print_grade_report()
             {
                 Console.WriteLine("我的成績單:\n編號 科目代碼\t分數\t等第\t學分數");
+                var sorted_grades = grades.OrderByDescending(entry => entry.Value.grade).Select((entry, index) => new { Index = index + 1, Entry = entry });
                 uint i = 0;
-                foreach (var trans in grades) {
-                    Console.WriteLine("{0,4} {1,-16}{2,-8}{3,-8}{4}",
-                        ++i, trans.Key, trans.Value.grade, grade_to_level(trans.Value.grade), trans.Value.credit);
+                foreach (var trans in sorted_grades) {
+                    Console.WriteLine("{0,4}  {1,-11}{2,-8}{3,-8} {4}",
+                        ++i, trans.Entry.Key, trans.Entry.Value.grade, grade_to_level(trans.Entry.Value.grade), trans.Entry.Value.credit);
                 }
             }
 
@@ -28,21 +30,28 @@ namespace Practice2_1
             }
         }
 
-        enum level
-        {
-            A, B, C, D, F
-        }
 
-        static level grade_to_level(ushort grade) {
+        static string grade_to_level(uint grade)
+        {
             if (grade >= 90)
-                return level.A;
+                return "A+";
+            if (grade >= 85)
+                return "A";
             if (grade >= 80)
-                return level.B;
+                return "A-";
+            if (grade >= 77)
+                return "B+";
+            if (grade >= 73)
+                return "B";
             if (grade >= 70)
-                return level.C;
+                return "B-";
+            if (grade >= 67)
+                return "C+";
+            if (grade >= 63)
+                return "C";
             if (grade >= 60)
-                return level.D;
-            return level.F;
+                return "C-";
+            return "F";
         }
 
         class entry {
