@@ -19,7 +19,7 @@ namespace Practice2_2
             view_state = new char[x, y];
             for (uint i = 0; i < x_size; ++i)
             for (uint j = 0; j < y_size; ++j)
-                view_state[i, j] = '_';
+                view_state[i, j] = '-';
         }
 
         public bool view(uint x, uint y) {
@@ -64,7 +64,13 @@ namespace Practice2_2
 
         public void print()
         {
+            Console.Write(" ");
+            for (int k = 0; k < x_size; k++)
+                Console.Write(" " + (char)(k + 'A' ));
+                
+            Console.WriteLine();
             for (int i = 0; i < y_size; i++) {
+                Console.Write(i);
                 for (int j = 0; j < x_size; j++) {
                     Console.Write(" " + view_state[j, i]);
                 }
