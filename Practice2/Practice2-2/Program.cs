@@ -96,15 +96,19 @@ namespace Practice2_2
            }
            Console.Clear();
            var board = new Board(k[0], k[1], ghost);
-           uint[] c;
+           string [] c;
+           uint x,y;
            do {
                board.print();
                Console.Write("輸入要查看的位置: ");
-               c = Console.ReadLine().Split(',').Select(uint.Parse).ToArray();
+               c = Console.ReadLine().Split(',');
+                x = (uint)(c[0][0]);
+                y = (uint)(c[1][0]) - 65;
+               
                Console.Clear();
-           } while (board.view(c[0], c[1]));
+           } while (board.view(x, y));
            board.print();
-           if(!board.view(c[0], c[1]))
+           if(!board.view(x, y))
                Console.WriteLine("遊戲結束! 你被鬼抓到了");
            else 
                Console.WriteLine("遊戲結束! 你成功躲避所有的鬼了");
