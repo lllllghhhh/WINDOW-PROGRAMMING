@@ -29,7 +29,7 @@ namespace Practice3_2
 		{
 			Console.WriteLine("新增社員資訊:     register			name	department	ID");
 			Console.WriteLine("以特定屬性查詢:   search			name	tag		Want_search_string");
-			Console.WriteLine("授予社員職位:	   entitle			name	department	ID		That_title");
+			Console.WriteLine("授予社員職位:	  entitle			name	department	ID		That_title");
 			Console.WriteLine("所有成員列表:     check");
 			Console.WriteLine("指令格式列表:     help");
 			Console.WriteLine("離開此程式:       exit");
@@ -38,57 +38,82 @@ namespace Practice3_2
 		private static club club_1 = new club();
 		static bool show()
 		{
-			print();
 			var method = Console.ReadLine();
-			string[] array = method.Split('	');
+			string[] array = method.Split(' ');
 			switch (array[0]) {
 				case "register":
 					member member_1 = new member(array[1], array[2], array[3], "盟新社員");
 					member member_2 = new member(array[1], array[2], array[3], "資深社員");
-					if (club_1.total_member.Contains(member_2))
-						club_1.total_member.Find(member => member == member_2 ).level = "永久社員";
-					else if(club_1.total_member.Contains(member_1))
-						club_1.total_member.Find(member => member == member_1 ).level = "資深社員";
-					else 
+					member member_3 = new member(array[1], array[2], array[3], "永久社員");
+					if (club_1.total_member.Contains(member_3)) {
+						Console.WriteLine("已經是永久成員了喔");
+					}
+					else if (club_1.total_member.Exists(member => member == member_2)) {
+						club_1.total_member.Find(member => member == member_2).level = "永久社員";
+						Console.WriteLine("已晉升為永久成員");
+					}
+					else if (club_1.total_member.Exists(member => member == member_1)) {
+						club_1.total_member.Find(member => member == member_1).level = "資深社員";
+						Console.WriteLine("已晉升為資深成員");
+					}
+					else {
 						club_1.total_member.Add(member_1);
+						Console.WriteLine("歡迎新社員!");
+					}
+
 					break;
 				case "search":
 					switch (array[1]) {
 						case "name":
 							if (club_1.total_member.Exists(member => member.name == array[2])) {
-								Console.WriteLine(club_1.total_member.Find(member => member.name == array[2] ));
+								foreach (var m in club_1.total_member) {
+									if(m.name == array[2])
+										Console.WriteLine("{0}\t{1}\t{2}\t\t{3}\t\t{4}",m.name, m.department, m.ID, m.level, m.title);
+								}
 							}
 							else {
 								Console.WriteLine("找不到這個人ㄟ");
 							}
 							break;
 						case "department":
-							if (club_1.total_member.Exists(member => member.name == array[2])) {
-								Console.WriteLine(club_1.total_member.Find(member => member.name == array[2] ));
+							if (club_1.total_member.Exists(member => member.department == array[2])) {
+								foreach (var m in club_1.total_member) {
+									if(m.department == array[2])
+										Console.WriteLine("{0}\t{1}\t{2}\t\t{3}\t\t{4}",m.name, m.department, m.ID, m.level, m.title);
+								}
 							}
 							else {
 								Console.WriteLine("找不到這個系的人ㄟ");
 							}
 							break;
 						case "ID":
-							if (club_1.total_member.Exists(member => member.name == array[2])) {
-								Console.WriteLine(club_1.total_member.Find(member => member.name == array[2] ));
+							if (club_1.total_member.Exists(member => member.ID == array[2])) {
+								foreach (var m in club_1.total_member) {
+									if(m.ID == array[2])
+										Console.WriteLine("{0}\t{1}\t{2}\t\t{3}\t\t{4}",m.name, m.department, m.ID, m.level, m.title);
+								}
 							}
 							else {
 								Console.WriteLine("找不到這個學號的人ㄟ");
 							}
 							break;
 						case "level":
-							if (club_1.total_member.Exists(member => member.name == array[2])) {
-								Console.WriteLine(club_1.total_member.Find(member => member.name == array[2] ));
+							if (club_1.total_member.Exists(member => member.level == array[2])) {
+								foreach (var m in club_1.total_member) {
+									if(m.level == array[2])
+										Console.WriteLine("{0}\t{1}\t{2}\t\t{3}\t\t{4}",m.name, m.department, m.ID, m.level, m.title);
+								}
 							}
 							else {
 								Console.WriteLine("找不到這個等級的人ㄟ");
 							}
 							break;
 						case "title":
-							if (club_1.total_member.Exists(member => member.name == array[2])) {
-								Console.WriteLine(club_1.total_member.Find(member => member.name == array[2] ));
+							if (club_1.total_member.Exists(member => member.title == array[2])) {
+								foreach (var m in club_1.total_member) {
+									if(m.title == array[2])
+										Console.WriteLine("{0}\t{1}\t{2}\t\t{3}\t\t{4}",m.name, m.department, m.ID, m.level, m.title);
+								}
 							}
 							else {
 								Console.WriteLine("找不到這個職務的人ㄟ");
@@ -126,7 +151,9 @@ namespace Practice3_2
 		}
 		public static void Main(string[] args)
 		{
-			show();
+			print();
+			while (show())	
+			 ;
 		}
 	}
 }
