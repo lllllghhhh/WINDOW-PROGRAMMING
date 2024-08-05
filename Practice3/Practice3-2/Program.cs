@@ -7,15 +7,15 @@ namespace Practice3_2
 	{
 		class club
 		{
-			private List<member> total_member = new List<member>();
+			public List<member> total_member = new List<member>();
 		}
-		class member
+		class member(string name, string dep, string id, string level, string titl = "無")
 		{
-			private string name;
-			private string department;
-			private string ID;
-			private string level;
-			private string title = "無";
+			private string name = name;
+			private string department = dep;
+			private string ID = id;
+			public string level = level;
+			private string title = titl;
 		}
 
 		static void print()
@@ -28,15 +28,25 @@ namespace Practice3_2
 			Console.WriteLine("離開此程式:       exit");
 		}
 
+		private static club club_1 = new club();
 		static bool show()
 		{
 			print();
 			var method = Console.ReadLine();
-			string[] array = method.Split(' ');
+			string[] array = method.Split('	');
 			switch (array[0]) {
 				case "register":
+					member member_1 = new member(array[1], array[2], array[3], "盟新社員");
+					member member_2 = new member(array[1], array[2], array[3], "資深社員");
+					if (club_1.total_member.Contains(member_2))
+						club_1.total_member.Find(member => member.level == "資深社員" ).level = "永久社員";
+					else if(club_1.total_member.Contains(member_1))
+						club_1.total_member.Find(member => member.level == "盟新社員" ).level = "資深社員";
+					else 
+						club_1.total_member.Add(member_1);
 					break;
 				case "search":
+					
 					break;
 				case "entitle":
 					break;
