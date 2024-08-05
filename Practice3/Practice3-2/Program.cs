@@ -1,35 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Practice3_2
-{
-	internal class Program
-	{
-		class club
-		{
-			public List<member> total_member = new List<member>();
+namespace Practice3_2 {
 
-			public void print_member()
-			{
-				foreach (var mem in total_member) {
-					Console.WriteLine("{0}\t{1}\t{2}\t\t{3}\t\t{4}",mem.name, mem.department, mem.ID, mem.level, mem.title);
-				}
+	// avoid inner class
+	class club {
+
+		public List<member> total_member = new List<member>();
+	
+		public void print_member() {
+			foreach (var mem in total_member) {
+				Console.WriteLine($"{mem.name}\t{mem.department}\t{mem.ID}\t\t{mem.level}\t\t{mem.title}");
 			}
 		}
-		class member(string name, string dep, string id, string level, string titl = "無")
-		{
-			public string name = name;
-			public string department = dep;
-			public string ID = id;
-			public string level = level;
-			public string title = titl;
-		}
+	}
 
-		static void print()
-		{
-			Console.WriteLine("新增社員資訊:     register			name	department	ID");
-			Console.WriteLine("以特定屬性查詢:   search			name	tag		Want_search_string");
-			Console.WriteLine("授予社員職位:	  entitle			name	department	ID		That_title");
+	// member level: use enum instead
+	enum member_level {
+		newbie, senior, permanent
+	}
+
+	// avoid inner class
+	class member(string name, string dep, string id, string level, string titl = "無") {
+
+		public string name = name;
+
+		public string department = dep;
+
+		public string ID = id;
+
+		// use enum instead
+		public member_level level = from_lvl_string(level);
+
+		public string title = titl;
+
+		member_level from_lvl_string(string lvl) {
+			switch (lvl) {
+				case "盟新社員":
+					return member_level.newbie;
+				case "資深社員":
+					return member_level.senior;
+				case "永久社員":
+					return member_level.permanent;
+				default:
+					throw new Exception();
+			}
+		}
+	}
+
+	internal class Program {
+
+		static void print() {
+			// use BRACKETS
+			Console.WriteLine("- register <name> <department> <ID>\n\t\t新增社員資訊");
+			Console.WriteLine("- search <\"name\"|\"department\"|\"id\"> <query>\n\t\t以特定屬性查詢");
+			Console.WriteLine("- entitle <name>	<department> <ID> <new_title>\n\t\t授予社員職位");
 			Console.WriteLine("所有成員列表:     check");
 			Console.WriteLine("指令格式列表:     help");
 			Console.WriteLine("離開此程式:       exit");
@@ -42,25 +67,52 @@ namespace Practice3_2
 			string[] array = method.Split(' ');
 			switch (array[0]) {
 				case "register":
+					// bad!!! these create new members EVERY iteration
+					/*
 					member member_1 = new member(array[1], array[2], array[3], "盟新社員");
 					member member_2 = new member(array[1], array[2], array[3], "資深社員");
 					member member_3 = new member(array[1], array[2], array[3], "永久社員");
+	 				*/
+					// bad!!! creates a new object instance only to compared against
+					/*
 					if (club_1.total_member.Contains(member_3)) {
 						Console.WriteLine("已經是永久成員了喔");
 					}
-					else if (club_1.total_member.Exists(member => member == member_2)) {
+					else if (club_1.total_member.Exists(member => member == member_2) /* this is same as using .Contains(member_2) ) {
 						club_1.total_member.Find(member => member == member_2).level = "永久社員";
 						Console.WriteLine("已晉升為永久成員");
 					}
-					else if (club_1.total_member.Exists(member => member == member_1)) {
+					else if (club_1.total_member.Exists(member => member == member_1) /* this is same as using .Contains(member_1) ) {
 						club_1.total_member.Find(member => member == member_1).level = "資深社員";
 						Console.WriteLine("已晉升為資深成員");
 					}
+	 				*/
+					// bad!!! not every iteration uses the newly create instances "member_2, member_1"
+					/*
 					else {
 						club_1.total_member.Add(member_1);
 						Console.WriteLine("歡迎新社員!");
 					}
-
+	 				*/
+					// use the following instead, with enumeration:
+					var target = club_1.total_member.Find(m => m.name == array[1] && m.department == array[2] && m.ID == array[3]);
+					if (target == null) {
+						club_1.total_member.Add(new member(array[1], array[2], array[3], member_level.newbie) /* only create new instance ONLY after a new instance is REALLY REQUIRED. */ );
+						Console.WriteLine("歡迎新社員!");
+					} else switch (target.level) {
+						case member_level.newbie:
+							target.level = member_level.senior;
+							Console.WriteLine("已晉升為資深成員");
+							break;
+						case member_level.senior:
+							target.level = member_level.permanent;
+							Console.WriteLine("已晉升為永久成員");
+							break;
+						case member_level.permanent:
+							Console.WriteLine("已經是永久成員了喔");
+							break;
+						// default case should be unreachable
+					}
 					break;
 				case "search":
 					switch (array[1]) {
