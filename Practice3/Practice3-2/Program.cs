@@ -20,7 +20,9 @@ namespace Practice3_2 {
 			if (target == null) {
 				total_member.Add(new member(name, depmt, id, member_level.newbie) /* only create new instance ONLY after a new instance is REALLY REQUIRED. */ );
 				Console.WriteLine("歡迎新社員!");
-			} else switch (target.level) {
+				return;
+			}
+			switch (target.level) {
 				case member_level.newbie:
 					target.level = member_level.senior;
 					Console.WriteLine("已晉升為資深成員");
@@ -40,6 +42,19 @@ namespace Practice3_2 {
 			var new_club = new club();
 			new_club.total_member = total_member.FindAll(cond);
 			return new_club;
+		}
+
+		public void entitle(string name, string depmt, string id, string new_title) {
+			var target = total_member.Find(m => m.name == name && m.department == depmt && m.ID == id);
+			if (target == null) {
+				Console.WriteLine("			找不到這個人ㄟ");
+				return;
+			}
+			if (array[4].Contains("社長")) {
+				Console.WriteLine("			我們的社長只有阿明一人，你不要想篡位！");
+				return;
+			}
+			target.title = new_title;
 		}
 	}
 
@@ -168,18 +183,22 @@ namespace Practice3_2 {
 					}
 					break;
 				case "entitle":
+					/*
 					foreach (var ber in club_1.total_member) {
-						if (ber.name == array[1] && ber.ID == array[3] && ber.department == array[2] &&
-						    !(array[4].Contains("社長")))
-							ber.title = array[4];
-						else if(ber.name == array[1] && ber.ID == array[3] && ber.department == array[2] &&
-						        array[4].Contains("社長"))
-							Console.WriteLine("			我們的社長只有阿明一人，你不要想篡位！");
-						else if (ber.name != array[1] && ber.ID != array[3] && ber.department != array[2]) {
+						// branches can be rearrange to be more readable
+						if (ber.name == array[1] && ber.ID == array[3] && ber.department == array[2]) {
+							if (!array[4].Contains("社長")) // precedence of boolean not operator is lower than member access operator; extra parentheses are redundant.
+								ber.title = array[4];
+							else // else is enough to cover the original first elseif branch
+								Console.WriteLine("			我們的社長只有阿明一人，你不要想篡位！"); // what's with the blanks at the begining??
+						} else if (ber.name != array[1] || ber.ID != array[3] || ber.department != array[2]) {
+							// original three not equal operator joined with boolean and operator is incorrect; it is only true if ALL THREE field are not equal.
 							Console.WriteLine("			找不到這個人ㄟ");
 							break;
 						}
 					}
+					*/
+					club_1.entitle(array[1], array[2], array[3], array[4]);
 					break;
 				case "check":
 					club_1.print_member();
@@ -199,7 +218,7 @@ namespace Practice3_2 {
 		{
 			print();
 			while (show())	
-			 ;
+				;
 		}
 	}
 }
