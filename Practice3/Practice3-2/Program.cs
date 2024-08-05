@@ -53,6 +53,50 @@ namespace Practice3_2
 						club_1.total_member.Add(member_1);
 					break;
 				case "search":
+					switch (array[1]) {
+						case "name":
+							if (club_1.total_member.Exists(member => member.name == array[2])) {
+								Console.WriteLine(club_1.total_member.Find(member => member.name == array[2] ));
+							}
+							else {
+								Console.WriteLine("找不到這個人ㄟ");
+							}
+							break;
+						case "department":
+							if (club_1.total_member.Exists(member => member.name == array[2])) {
+								Console.WriteLine(club_1.total_member.Find(member => member.name == array[2] ));
+							}
+							else {
+								Console.WriteLine("找不到這個系的人ㄟ");
+							}
+							break;
+						case "ID":
+							if (club_1.total_member.Exists(member => member.name == array[2])) {
+								Console.WriteLine(club_1.total_member.Find(member => member.name == array[2] ));
+							}
+							else {
+								Console.WriteLine("找不到這個學號的人ㄟ");
+							}
+							break;
+						case "level":
+							if (club_1.total_member.Exists(member => member.name == array[2])) {
+								Console.WriteLine(club_1.total_member.Find(member => member.name == array[2] ));
+							}
+							else {
+								Console.WriteLine("找不到這個等級的人ㄟ");
+							}
+							break;
+						case "title":
+							if (club_1.total_member.Exists(member => member.name == array[2])) {
+								Console.WriteLine(club_1.total_member.Find(member => member.name == array[2] ));
+							}
+							else {
+								Console.WriteLine("找不到這個職務的人ㄟ");
+							}
+							break;
+					}
+					break;
+				case "entitle":
 					foreach (var ber in club_1.total_member) {
 						if (ber.name == array[1] && ber.ID == array[3] && ber.department == array[2] &&
 						    !(array[4].Contains("社長")))
@@ -65,10 +109,6 @@ namespace Practice3_2
 							break;
 						}
 					}
-
-					break;
-				case "entitle":
-					
 					break;
 				case "check":
 					club_1.print_member();
