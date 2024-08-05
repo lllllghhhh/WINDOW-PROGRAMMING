@@ -46,16 +46,29 @@ namespace Practice3_2
 					member member_1 = new member(array[1], array[2], array[3], "盟新社員");
 					member member_2 = new member(array[1], array[2], array[3], "資深社員");
 					if (club_1.total_member.Contains(member_2))
-						club_1.total_member.Find(member => member.level == "資深社員" ).level = "永久社員";
+						club_1.total_member.Find(member => member == member_2 ).level = "永久社員";
 					else if(club_1.total_member.Contains(member_1))
-						club_1.total_member.Find(member => member.level == "盟新社員" ).level = "資深社員";
+						club_1.total_member.Find(member => member == member_1 ).level = "資深社員";
 					else 
 						club_1.total_member.Add(member_1);
 					break;
 				case "search":
-					
+					foreach (var ber in club_1.total_member) {
+						if (ber.name == array[1] && ber.ID == array[3] && ber.department == array[2] &&
+						    !(array[4].Contains("社長")))
+							ber.title = array[4];
+						else if(ber.name == array[1] && ber.ID == array[3] && ber.department == array[2] &&
+						        array[4].Contains("社長"))
+							Console.WriteLine("			我們的社長只有阿明一人，你不要想篡位！");
+						else if (ber.name != array[1] && ber.ID != array[3] && ber.department != array[2]) {
+							Console.WriteLine("			找不到這個人ㄟ");
+							break;
+						}
+					}
+
 					break;
 				case "entitle":
+					
 					break;
 				case "check":
 					club_1.print_member();
