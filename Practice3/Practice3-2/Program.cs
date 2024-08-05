@@ -8,14 +8,21 @@ namespace Practice3_2
 		class club
 		{
 			public List<member> total_member = new List<member>();
+
+			public void print_member()
+			{
+				foreach (var mem in total_member) {
+					Console.WriteLine("{0}\t{1}\t{2}\t\t{3}\t\t{4}",mem.name, mem.department, mem.ID, mem.level, mem.title);
+				}
+			}
 		}
 		class member(string name, string dep, string id, string level, string titl = "無")
 		{
-			private string name = name;
-			private string department = dep;
-			private string ID = id;
+			public string name = name;
+			public string department = dep;
+			public string ID = id;
 			public string level = level;
-			private string title = titl;
+			public string title = titl;
 		}
 
 		static void print()
@@ -51,6 +58,7 @@ namespace Practice3_2
 				case "entitle":
 					break;
 				case "check":
+					club_1.print_member();
 					break;
 				case "help":
 					print();
