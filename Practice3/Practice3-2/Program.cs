@@ -7,7 +7,9 @@ namespace Practice3_2 {
 	class club {
 
 		public List<member> total_member = new List<member>();
-	
+
+		public int Count => total_member.Count;
+
 		public void print_member() {
 			foreach (var mem in total_member) {
 				Console.WriteLine($"{mem.name}\t{mem.department}\t{mem.ID}\t\t{mem.level}\t\t{mem.title}");
@@ -50,7 +52,7 @@ namespace Practice3_2 {
 				Console.WriteLine("			找不到這個人ㄟ");
 				return;
 			}
-			if (array[4].Contains("社長")) {
+			if (new_title.Contains("社長")) {
 				Console.WriteLine("			我們的社長只有阿明一人，你不要想篡位！");
 				return;
 			}
@@ -64,7 +66,7 @@ namespace Practice3_2 {
 	}
 
 	// avoid inner class
-	class member(string name, string dep, string id, string level, string titl = "無") {
+	class member(string name, string dep, string id, member_level level, string titl = "無") {
 
 		public string name = name;
 
@@ -73,11 +75,11 @@ namespace Practice3_2 {
 		public string ID = id;
 
 		// use enum instead
-		public member_level level = from_lvl_string(level);
+		public member_level level = level;
 
 		public string title = titl;
 
-		public member_level from_lvl_string(string lvl) {
+		public static member_level from_lvl_string(string lvl) {
 			switch (lvl) {
 				case "盟新社員":
 					return member_level.newbie;
@@ -97,7 +99,7 @@ namespace Practice3_2 {
 			// use BRACKETS
 			Console.WriteLine("- register <name> <department> <ID>\n\t\t新增社員資訊");
 			Console.WriteLine("- search <\"name\"|\"department\"|\"id\"|\"level\"|\"title\"> <query>\n\t\t以特定屬性查詢");
-			Console.WriteLine("- entitle <name>	<department> <ID> <new_title>\n\t\t授予社員職位");
+			Console.WriteLine("- entitle <name> <department> <ID> <new_title>\n\t\t授予社員職位");
 			Console.WriteLine("所有成員列表:     check");
 			Console.WriteLine("指令格式列表:     help");
 			Console.WriteLine("離開此程式:       exit");
@@ -106,38 +108,11 @@ namespace Practice3_2 {
 		private static club club_1 = new club();
 		static bool show()
 		{
+			Console.Write("> ");
 			var method = Console.ReadLine();
 			string[] array = method.Split(' ');
 			switch (array[0].ToLower() /* recommended */) {
 				case "register":
-					// bad!!! these create new members EVERY iteration
-					/*
-					member member_1 = new member(array[1], array[2], array[3], "盟新社員");
-					member member_2 = new member(array[1], array[2], array[3], "資深社員");
-					member member_3 = new member(array[1], array[2], array[3], "永久社員");
-	 				*/
-					// bad!!! creates a new object instance only to compared against
-					/*
-					if (club_1.total_member.Contains(member_3)) {
-						Console.WriteLine("已經是永久成員了喔");
-					}
-					else if (club_1.total_member.Exists(member => member == member_2) /* this is same as using .Contains(member_2) ) {
-						club_1.total_member.Find(member => member == member_2).level = "永久社員";
-						Console.WriteLine("已晉升為永久成員");
-					}
-					else if (club_1.total_member.Exists(member => member == member_1) /* this is same as using .Contains(member_1) ) {
-						club_1.total_member.Find(member => member == member_1).level = "資深社員";
-						Console.WriteLine("已晉升為資深成員");
-					}
-	 				*/
-					// bad!!! not every iteration uses the newly create instances "member_2, member_1"
-					/*
-					else {
-						club_1.total_member.Add(member_1);
-						Console.WriteLine("歡迎新社員!");
-					}
-	 				*/
-					// call member function:
 					club_1.register(array[1], array[2], array[3]);
 					break;
 				case "search":
@@ -166,7 +141,7 @@ namespace Practice3_2 {
 							}
 							break;
 						case "level":
-							targets = club_1.filter(member => member.level == Practice3_2.member.from_lvl_string(array[2]));
+							targets = club_1.filter(member => member.level == member.from_lvl_string(array[2]));
 							if (targets.Count == 0) {
 								Console.WriteLine("找不到這個等級的人ㄟ");
 								return true;
@@ -179,25 +154,13 @@ namespace Practice3_2 {
 								return true;
 							}
 							break;
-						// default case is not handled properly
+						default:
+							Console.WriteLine("again");
+							return true;
 					}
+					targets.print_member();
 					break;
 				case "entitle":
-					/*
-					foreach (var ber in club_1.total_member) {
-						// branches can be rearrange to be more readable
-						if (ber.name == array[1] && ber.ID == array[3] && ber.department == array[2]) {
-							if (!array[4].Contains("社長")) // precedence of boolean not operator is lower than member access operator; extra parentheses are redundant.
-								ber.title = array[4];
-							else // else is enough to cover the original first elseif branch
-								Console.WriteLine("			我們的社長只有阿明一人，你不要想篡位！"); // what's with the blanks at the begining??
-						} else if (ber.name != array[1] || ber.ID != array[3] || ber.department != array[2]) {
-							// original three not equal operator joined with boolean and operator is incorrect; it is only true if ALL THREE field are not equal.
-							Console.WriteLine("			找不到這個人ㄟ");
-							break;
-						}
-					}
-					*/
 					club_1.entitle(array[1], array[2], array[3], array[4]);
 					break;
 				case "check":
