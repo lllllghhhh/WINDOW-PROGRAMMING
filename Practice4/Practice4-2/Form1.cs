@@ -23,7 +23,7 @@ namespace Practice4_2
 			var f_amount = int.Parse(fertilizer.Text);
 			var fruit_amount = int.Parse(fruit.Text);
 			var savings = int.Parse(label2.Text);
-			if (seed_amount > 0 | f_amount > 0 | fruit_amount > 0) {
+			if (savings > 0 && (seed_amount > 0 | f_amount > 0 | fruit_amount > 0)) {
 				if (seed_check.Checked && seed_amount > 0) {
 					seed_amount++;
 					savings -= 10;
